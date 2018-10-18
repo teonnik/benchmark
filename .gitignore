@@ -46,9 +46,9 @@ rules.ninja
 bazel-*
 
 # out-of-source build top-level folders.
-build/
+#build/
 _build/
-build*/
+#build*/
 
 # in-source dependencies
 /googletest/

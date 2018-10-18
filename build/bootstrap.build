@@ -1,0 +1,7 @@
+project = nlohmann_json
+
+using version
+using config
+using test
+using install
+using dist

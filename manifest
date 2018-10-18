@@ -1,0 +1,9 @@
+: 1
+name: benchmark
+version: 1.4.1
+summary: A microbenchmark support library
+license: Apache 2.0
+url: https://github.com/google/benchmark
+email: TODO
+depends: * build2 >= 0.8.0-
+depends: * bpkg >= 0.8.0-
