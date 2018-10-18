@@ -1,4 +1,4 @@
-project = nlohmann_json
+project = benchmark
 
 using version
 using config
