@@ -1,8 +1,40 @@
-./ : lib{benchmark} lib{benchmark_main} doc{LICENSE README.md CONTRIBUTING.md CONTRIBUTORS} manifest
-cxx.poptions =+ "-I$src_root/include"
+./ : lib{benchmark} \
+    liba{benchmark_main} \
+    test/ \
+    doc{LICENSE README.md CONTRIBUTING.md CONTRIBUTORS} \
+    manifest
 
 lib{benchmark}: include/benchmark/hxx{*} src/{hxx cxx}{* -benchmark_main}
+
+# This library provides the main() definition for cases where we don't have
+# BENCHMARK_MAIN() in our code. It is a static library that is linked in the
+# whole archive mode.
+#
+liba{benchmark_main}: src/cxx{benchmark_main} lib{benchmark}
+liba{benchmark_main}: bin.whole = true
+
+cxx.poptions =+ "-I$src_root/include"
 lib{benchmark}: cxx.export.poptions = "-I$src_root/include"
-lib{benchmark_main}: src/cxx{benchmark_main} lib{benchmark}
+
+# Additional system libraries.
+#
+if ($cxx.target.class == 'windows')
+  cxx.libs += ($cxx.target.system == 'mingw32' ? -lshlwapi : shlwapi.lib)
+else
+  cxx.libs += -lpthread
 
 include/benchmark/hxx{*}: install = include/benchmark/
+
+# Unit tests.
+#
+test/
+{
+  exe{*}: test = true
+  exe{*}: install = false  
+  
+  ./: exe{basic_test}
+  exe{basic_test}: cxx{basic_test} ../lib{benchmark}  
+  
+  ./: exe{link_main_test}
+  exe{link_main_test}: cxx{link_main_test} ../liba{benchmark_main}
+}
