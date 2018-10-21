@@ -21,9 +21,10 @@ lib{benchmark}: cxx.export.poptions = "-I$src_root/include"
 if ($cxx.target.class == 'windows')
   cxx.libs += ($cxx.target.system == 'mingw32' ? -lshlwapi : shlwapi.lib)
 else
+{
   cxx.coptions += "-Wno-deprecated-declarations"
   cxx.libs += -lpthread
-
+}
 
 include/benchmark/hxx{*}: install = include/benchmark/
 
