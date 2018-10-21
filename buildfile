@@ -28,16 +28,3 @@ else
 
 include/benchmark/hxx{*}: install = include/benchmark/
 
-# Unit tests.
-#
-test/
-{
-  exe{*}: test = true
-  exe{*}: install = false  
-  
-  ./: exe{basic_test}
-  exe{basic_test}: cxx{basic_test} ../lib{benchmark}  
-  
-  ./: exe{link_main_test}
-  exe{link_main_test}: cxx{link_main_test} ../liba{benchmark_main}
-}
