@@ -19,7 +19,11 @@ lib{benchmark}: cxx.export.poptions = "-I$src_root/include"
 # Additional system libraries.
 #
 if ($cxx.target.class == 'windows')
+{
+  cxx.poptions += "-D_CRT_SECURE_NO_WARNINGS"
+  cxx.coptions += "/W4" 
   cxx.libs += ($cxx.target.system == 'mingw32' ? -lshlwapi : shlwapi.lib)
+}
 else
 {
   cxx.coptions += "-Wno-deprecated-declarations"
